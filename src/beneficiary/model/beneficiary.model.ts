@@ -1,10 +1,20 @@
-import {Connection} from 'mongoose';
-import {BeneficiarySchema} from '../schema/beneficiary.schema'
+import {Document, Schema} from 'mongoose';
 
-export const BeneficiaryModel = [
-    {
-        provide:'BENEFICIARY_MODEL',
-        useFactory:(connetion:Connection)=> connetion.model('Beneficiary',BeneficiarySchema),
-        inject:['DATABASE_CONNECTION']
-    }
-]
+export const BeneficiarySchema = new Schema({
+    name:String,
+    cpf:String,
+    rg:String,
+    birth:Date,
+    plan:String,
+    dependents:Number
+})
+
+export interface Beneficiary extends Document{
+    id:String,
+    name: String,
+    cpf: String,
+    rg:String,
+    birth: Date,
+    plan: String,
+    dependents: Number
+}

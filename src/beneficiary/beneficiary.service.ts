@@ -1,32 +1,33 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateBeneficiaryDto } from './dto/create-beneficiary.dto';
 import { UpdateBeneficiaryDto } from './dto/update-beneficiary.dto';
-import { BeneficiaryInterface } from './interface/beneficiary.interface';
+import { Beneficiary } from './model/beneficiary.model';
 
 @Injectable()
 export class BeneficiaryService {
 
   constructor(
-    @Inject('BENEFICIARY_MODEL')
-    private beneficiaryModel:Model<BeneficiaryInterface>
+    @InjectModel('Beneficiary')
+    private readonly beneficiaryModel:Model<Beneficiary>
   ){}
 
 
-  async create(createBeneficiaryDto: CreateBeneficiaryDto):Promise<BeneficiaryInterface>{
+  async create(createBeneficiaryDto: CreateBeneficiaryDto):Promise<Beneficiary>{
     const beneficiary = new this.beneficiaryModel(createBeneficiaryDto);
     return beneficiary.save()
   }
 
-  async findAll():Promise<BeneficiaryInterface[]> {
+  async findAll():Promise<Beneficiary[]> {
     return this.beneficiaryModel.find().exec()
   }
 
-  async findOne(id: number):Promise<BeneficiaryInterface> {
+  async findOne(id: number):Promise<Beneficiary> {
     return this.beneficiaryModel.findById(id)
   }
 
-  async update(id: number, updateBeneficiaryDto: UpdateBeneficiaryDto):Promise<BeneficiaryInterface> {
+  async update(id: number, updateBeneficiaryDto: UpdateBeneficiaryDto):Promise<Beneficiary> {
     const beneficiary = await this.findOne(id)
 
     beneficiary.name = updateBeneficiaryDto.name

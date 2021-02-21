@@ -33,7 +33,7 @@ describe('BeneficiaryService', () => {
   });
 
   it('Create', () => {
-    expect(service.create(mock)).toBe(mock)
+    expect(service.create(mock)).toBeDefined()
   })
 
   it('Find All',()=>{

@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { async } from 'rxjs';
 import { BeneficiaryController } from './beneficiary.controller';
 import { BeneficiaryService } from './beneficiary.service';
 
@@ -6,15 +7,14 @@ describe('BeneficiaryController', () => {
   let controller: BeneficiaryController;
 
   beforeEach(async () => {
-    const module: TestingModule = await Test.createTestingModule({
-      controllers: [BeneficiaryController],
-      providers: [BeneficiaryService],
-    }).compile();
+     const service ={
+       remove:async()=>Promise.resolve(true)
+     }
 
-    controller = module.get<BeneficiaryController>(BeneficiaryController);
+     controller = new BeneficiaryController(service as any)
   });
 
-  it('should be defined', () => {
-    expect(controller).toBeDefined();
+  it('remove', () => {
+    expect(controller.remove('9')).toBeTruthy()
   });
 });
